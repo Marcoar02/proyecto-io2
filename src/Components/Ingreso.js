@@ -27,7 +27,7 @@ class Ingreso extends React.Component{
     render(){
         let mostrarPlanteamiento;
         if (this.state.show){
-          mostrarPlanteamiento = <Planteamiento show = {this.state.show} variableNum = {this.textInput1.value} ></Planteamiento>;
+          mostrarPlanteamiento = <Planteamiento show = {this.state.show} variableNum = {this.textInput1.value} variableRes = {this.textInput2.value} ></Planteamiento>;
             
         }
             return <div>
@@ -36,7 +36,7 @@ class Ingreso extends React.Component{
             <input ref={input1=>{this.textInput1 = input1;}} type="text" name="n_variable" placeholder="variables"   onChange={this.onChange}></input><br/><br></br>
             <span>N° de restricciones  </span>
             <input ref={input2=>{this.textInput2 = input2;}} type="text" name="n_restriccion" placeholder="restricciones"  onChange={this.onChange}/>
-            {/* <input type="submit" onClick={this.onClick} value="Enviar" className="boton" /> */} <button  onSubmit={this.addDatos} onClick={this.onClick} className="boton">Continuar</button>
+            {/* <input type="submit" onClick={this.onClick} value="Enviar" className="boton" /> */} <button  onSubmit={this.addDatos} onClick={this.onClick} className="boton">Enviar</button>
           
             {mostrarPlanteamiento}
             </div>
