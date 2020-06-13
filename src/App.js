@@ -1,26 +1,58 @@
 import React from 'react';
-import logo from './logo.svg';
+ import logo from './logo.svg'; 
 import './App.css';
+import Ingreso from './Components/Ingreso';
 
-function App() {
-  return (
-    <div className="App">
+import './Components/Ingreso.css';
+
+
+class App extends React.Component {
+
+  constructor(){
+    super();
+    this.state = {
+      show : false, 
+      variableNum : 0,
+      nrestriccion : 0     
+     };
+
+  }
+  
+  onClick =()=>{
+    this.setState({show:!this.state.show})
+  }
+
+  addDatos = (nvariable, nrestriccion) =>{
+   this.setState({variableNum : parseInt(nvariable,10)})
+    //this.state.variableNum = parseInt(nvariable,10);
+    this.setState({nrestriccion : parseInt(nrestriccion)});
+    console.log(this.state.variableNum)
+    
+    
+  }
+
+  render(){
+    
+    let mostrarIngreso;
+    if (this.state.show){
+      mostrarIngreso = <Ingreso  show = {this.state.show} addDatos= {this.addDatos}></Ingreso>;
+        
+    } 
+    
+    return <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Método de Enumeración Completa
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <button  onClick={this.onClick} className="boton">Continuar</button>
+        {mostrarIngreso}
+        
+          
       </header>
     </div>
-  );
-}
+  }    
+  
+} 
 
 export default App;
