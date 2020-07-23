@@ -6,12 +6,13 @@ class Ingreso extends React.Component{
 
     state = {
         show:false,
-        
+        value: ''
     }
     onChange = e =>{
         
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name] : e.target.value,
+            
         })
         
     }
@@ -26,9 +27,16 @@ class Ingreso extends React.Component{
          
     }
     render(){
+        let input1 = <input ref={input1=>{this.textInput1 = input1;}} type="text" name="input1" size="8"  checked={this.state.isGoing} onChange={this.onChange}></input>;
+        let input2 = <input ref={input2=>{this.textInput2 = input2;}} type="text" name="input2" size="8"  checked={this.state.isGoing} onChange={this.onChange}></input>;
+        let selector = <select name="selector" onChange={this.onChange}>
+             <option value="&le;">&le;</option>
+             <option value="&ge;">&ge;</option>
+             <option value="=">=</option> 
+        </select>
         let mostrarPlanteamiento;
         if (this.state.show){
-          mostrarPlanteamiento = <Planteamiento show = {this.state.show} variableNum = {this.textInput1.value} variableRes = {this.textInput2.value} display = "flex"></Planteamiento>;
+          mostrarPlanteamiento = <Planteamiento input1={input1} input2={input2} selector={selector} show = {this.state.show} variableNum = {this.textInput1.value} variableRes = {this.textInput2.value} display = "flex"></Planteamiento>;
         //console.log(this.textInput1)
         } 
             return <div>
