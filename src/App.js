@@ -45,6 +45,11 @@ class App extends React.Component {
         <h1>
           Método de Enumeración Completa
         </h1>
+        <p>
+          ¡RECUERDA!: Un número elevado de variables y de un amplio rango de valores posibles de éstas, <br></br>
+          la resolución por este método es <span > prácticamente imposible,</span><br></br>
+          dado el elevado número de puntos que deberán ser evaluados
+        </p>
         <button  onClick={this.onClick} className="boton">Continuar</button>
         {mostrarIngreso}
         

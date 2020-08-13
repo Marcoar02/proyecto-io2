@@ -14,7 +14,9 @@ class Planteamiento extends React.Component{
         this.comparar = []
         this.datafinal =[]
         this.x1 = []
-        this.x2=[]
+        this.x2 = []
+        this.factibilidad = []
+
         this.state= {
             show:false,
             isGoing:true,
@@ -84,7 +86,7 @@ class Planteamiento extends React.Component{
             //this.state.funcion_r.push(parseInt(datoinput2[index].value,10))
             //console.log(this.state.funcion_r.map((elemento)=>elemento))
             this.funcion_r[index]= parseInt(datoinput2[index].value,10)
-            //console.log(this.funcion_r)
+            console.log(this.funcion_r)
         }
 
         for (let index = 0; index < nrestriccion; index++) {
@@ -252,6 +254,7 @@ class Planteamiento extends React.Component{
         }
         
         let contador =0   
+        //tabla x1
         for (let k = 0; k < this.datafinal[0].length; k++) {
             //console.log(this.datafinal[0].length)
             for (let m = 0; m < this.datafinal[1].length; m++) {
@@ -265,7 +268,8 @@ class Planteamiento extends React.Component{
                               
         }
         
-      
+        contador =0
+        //tablax2
         for (let k = 0; k < this.datafinal[0].length; k++) {
             
             for (let m = 0; m < this.datafinal[1].length; m++) {
@@ -278,19 +282,41 @@ class Planteamiento extends React.Component{
             }                    
         }
         
+        //tabla factibilidad
+      
         for (let index = 0; index < element; index++) {
-            let a = this.x1[index];
-            let b = this.x2[index];
-            console.log(this.x1[index])
+            let a = parseInt(this.x1[index],10);
+            let b = parseInt(this.x2[index],10);
+            let result = a* parseInt(this.funcion_r[2]) + b*parseInt(this.funcion_r[3])
+            if(result <= parseInt(this.funcion_z[1])){
+                this.state.conteinerfact.push(<tr>SI</tr>)
+                this.factibilidad[index]="SI";
+            }else{
+                this.state.conteinerfact.push(<tr id="not"color="red">NO</tr>)
+                this.factibilidad[index]="NO";
+            }
             
         }
 
+        
+        // tabla 
         for (let index = 0; index < element; index++) {
             let c = parseInt(this.x1[index],10);
-            let d = parseInt(this.x1[index],10);
-            let resultado = c * parseInt(this.funcion_v[0],10) + d * parseInt(this.funcion_v[1],10);
+            let d = parseInt(this.x2[index],10);
+            let resultado = c*parseInt(this.funcion_v[0],10) + d*parseInt(this.funcion_v[1],10);
             console.log(resultado);
-            this.state.conteinerZ.push(<tr>{resultado}</tr>)
+            console.log(this.factibilidad);
+            if( this.factibilidad[index] === "SI"){
+                if(resultado == 15){
+                    this.state.conteinerZ.push(<tr id="max">{resultado}</tr>)
+                }else{
+                    this.state.conteinerZ.push(<tr>{resultado}</tr>)
+                }
+                
+            }else{
+                this.state.conteinerZ.push(<tr>---</tr>)
+            }
+            
             
         }
            
@@ -303,6 +329,7 @@ class Planteamiento extends React.Component{
         let pintarTabla = this.state.conteiner3.map((dato)=>dato);
         let pintarDatos1 = this.state.conteinerx1.map((dato)=>dato);
         let pintarDatos2 = this.state.conteinerx2.map((dato)=>dato);
+        let pintarFact = this.state.conteinerfact.map((dato)=>dato);
         let pintarDatosZ = this.state.conteinerZ.map((dato)=>dato);
         //console.log(mostrarSolucion)
         if (this.state.show){
@@ -312,6 +339,7 @@ class Planteamiento extends React.Component{
                                 conteiner3= {pintarTabla} 
                                 conteiner4={pintarDatos1} 
                                 conteiner5={pintarDatos2}
+                                conteiner6={pintarFact}
                                 conteiner7={pintarDatosZ} 
                                 display = "flex">
         

@@ -33,20 +33,23 @@ class Solucion extends React.Component{
     const datos2 = this.props.conteiner5;
     //console.log(this.props.conteinerx2);
     ReactDOM.render(datos2,document.getElementById("fila1"))
+    const datosFact = this.props.conteiner6;
+    //console.log(this.props.conteinerx2);
+    ReactDOM.render(datosFact,document.getElementById("fila2"))
     const datosZ = this.props.conteiner7;
     //console.log(this.props.conteinerx2);
     ReactDOM.render(datosZ,document.getElementById("fila3"))
    }
     render(){
         return(<div><br/><button  onClick={this.Resol}   className="boton">Tabla</button><br/><br/>
-        <table className="minimalistBlack">
+        <table className="general">
             <thead id="tabla1">
 
             </thead>
             <tbody id="tabla2">
                 
             </tbody>
-        </table></div>)
+        </table><br></br><br></br></div>)
         
     }
 }
