@@ -42,9 +42,9 @@ class App extends React.Component {
     return <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
+        <h1>
           Método de Enumeración Completa
-        </p>
+        </h1>
         <button  onClick={this.onClick} className="boton">Continuar</button>
         {mostrarIngreso}
         

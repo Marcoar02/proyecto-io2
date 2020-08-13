@@ -7,14 +7,29 @@ class Planteamiento extends React.Component{
 
     constructor(props){
         super(props);
-       
+        this.funcion_v = []
+        this.funcion_z = []
+        this.funcion_r = []
+        this.selector = []
+        this.comparar = []
+        this.datafinal =[]
+        this.x1 = []
+        this.x2=[]
         this.state= {
             show:false,
             isGoing:true,
-            conteiner1:[], 
+            conteiner1:[],
+            conteiner2 :[],
+            conteiner3:[],
+            conteinerx1:[],
+            conteinerx2:[],
+            conteinerfact: [],
+            conteinerZ : [], 
             input1: '',
-            value :'34'
-            
+            value :'34',
+            /* funcion_z:[],
+            funcion_r:[],
+            seleccion: [] */
           
         }
         this.onClick = this.onClick.bind(this);
@@ -22,6 +37,9 @@ class Planteamiento extends React.Component{
         this.addDatos = this.addDatos.bind(this);
         this.pintarForm = this.pintarForm.bind(this);
         this.myFunction = this.myFunction.bind(this);
+        this.generalFunction = this.generalFunction.bind(this);
+        this.pintarTabla = this.pintarTabla.bind(this);
+
 
     }
     onChange (e){
@@ -52,39 +70,103 @@ class Planteamiento extends React.Component{
         for (let index = 0; index < nvariable; index++) {
             var datoinput = document.getElementsByName("input1");
             datoinput[index].onChange = this.onChange
-            console.log(datoinput[index].value)
-            
-        
+            //console.log(datoinput[index].value)
+            //this.state.funcion_z.push(parseInt(datoinput[index].value,10))
+            //console.log(this.state.funcion_z.map((elemento)=>elemento))
+            this.funcion_v[index]= parseInt(datoinput[index].value,10)
+            //console.log(this.funcion_v)
         }
         
-        for (let index = 0; index < ((nvariable+1)*nrestriccion); index++) {
+        for (let index = 0; index < ((nvariable)*nrestriccion); index++) {
             var datoinput2 = document.getElementsByName("input2");
             datoinput2[index].onChange = this.onChange
-            console.log(datoinput2[index].value)
-        
+            //console.log(datoinput2[index].value)
+            //this.state.funcion_r.push(parseInt(datoinput2[index].value,10))
+            //console.log(this.state.funcion_r.map((elemento)=>elemento))
+            this.funcion_r[index]= parseInt(datoinput2[index].value,10)
+            //console.log(this.funcion_r)
         }
 
         for (let index = 0; index < nrestriccion; index++) {
             var selector = document.getElementsByName("selector");
             selector[index].onChange = this.onChange
-            console.log(selector[index].value)
-        
+            selector[index].className = "select-css"
+            //console.log(selector[index].value)
+            //this.state.seleccion.push(selector[index].value)
+            //console.log(this.state.seleccion.map((elemento)=>elemento))
+            this.selector[index]= selector[index].value
+            //console.log(this.selector)
         }
         
+        for (let index = 0; index < nvariable; index++) {
+            var datoinput3 = document.getElementsByName("input3");
+            datoinput3[index].onChange = this.onChange
+            //console.log(datoinput2[index].value)
+            //this.state.funcion_r.push(parseInt(datoinput2[index].value,10))
+            //console.log(this.state.funcion_r.map((elemento)=>elemento))
+            this.funcion_z[index]= parseInt(datoinput3[index].value,10)
+            //console.log(this.funcion_z)
+        }
 
-         
+        //obteniendo valores de x
+        let i=0;
+        for(let index=0; index<nvariable;index++){
+            //console.log(index)
+            let n= "x"+(index+1)
+            let count = 0
+            //console.log(i)
+                for(i;i<this.funcion_r.length;i=i+nvariable){
+                    n = []
+                    let a = this.funcion_z[count]/this.funcion_r[i]
+                    if(this.selector[count]=="<="){
+                        for(let j=0;j<=parseInt(a,10);j++){
+                            n[j]=j;
+                        }
+                    }
+                    else if(this.selector[count]=="="){
+                        n[count]=a
+                    }
+                    count++;
+                    //console.log(n)
+                    this.comparar[count]=n
+                    //console.log(this.comparar)
+                    for (let h = 0; h < this.comparar.length; h++) {
+                        let a = this.comparar[h]
+                        let b = this.comparar[h+1]
+                        if(a<b){
+                            this.datafinal[index]=a
+                        }else if(a>b){
+                            this.datafinal[index]=b
+                        }
+                        //console.log(this.datafinal)
+                        
+                    }
+                }
+                
+            i= index;
+            i++
+            
+        }
+        console.log(this.datafinal)
+        console.log(this.datafinal[0][1])
     }
-    
+    generalFunction (){
+        this.onClick();
+        this.addDatos();
+        this.pintarTabla();
+        
+    }
     
     pintarForm(){
         let nvariable = parseInt(this.props.variableNum,10);
         let nrestriccion = parseInt(this.props.variableRes,10);
         let input1 = this.props.input1;
         let input2 = this.props.input2;
+        let input3 = this.props.input3;
         let selector = this.props.selector;
         console.log(this.props.input1);
         //console.log(this.props.variableRes);
-        this.state.conteiner1.push(<span>Función Z: </span>)
+        this.state.conteiner1.push(<span>Función Máx Z: </span>)
         for (let index = 1; index <= nvariable; index++) {
             if(index < nvariable){
                           
@@ -92,13 +174,13 @@ class Planteamiento extends React.Component{
                this.state.conteiner1.push(input1);
                this.state.conteiner1.push(<span> X{index} + </span>)
                 document.getElementsByName("var"+index)
-            
+                
             }
             else{
                 
                 
                 this.state.conteiner1.push(input1)
-                this.state.conteiner1.push(<span> X{index}<br/><br/></span>)
+                this.state.conteiner1.push(<span> X{index} <br/><br/></span>)
                 
             }
         }
@@ -115,40 +197,129 @@ class Planteamiento extends React.Component{
                     this.state.conteiner1.push(<span> X{index+1} + </span>)
                 }else if(index < nvariable){
                     this.state.conteiner1.push(input2);
-                    this.state.conteiner1.push(<span> X{index+1} + </span>)
+                    this.state.conteiner1.push(<span> X{index+1}</span>)
                 }                    
                 else{
                     this.state.conteiner1.push(selector);
-                    this.state.conteiner1.push(input2);
+                    this.state.conteiner1.push(input3);
                     this.state.conteiner1.push(<span><br/><br/></span>);
                 }
             
             } 
         }
-        this.state.conteiner1.push(<button  type="text" onSubmit={this.addDatos} onClick={this.addDatos}  className="boton">Continuar</button>);
+        this.state.conteiner1.push(<button  type="text" onSubmit={this.addDatos} onClick={this.generalFunction}  className="boton">Continuar</button>);
+        this.state.conteiner1.push(<br></br>)
+        //this.state.conteiner1.push(<button  type="text" onSubmit={this.addDatos} onClick={this.pintarTabla}  className="boton">Solución</button>);
         const listado1 = this.state.conteiner1.map((variable)=>variable)
         ReactDOM.render(listado1,document.getElementById("formulario"))
         /* const listado2 = this.state.conteiner1.map((variable)=><span>{variable}</span>)
         ReactDOM.render(listado2,document.getElementById("rests")) */
+
         //this.state.conteiner2 = [];
         
+        //let nrestriccion = parseInt(this.props.variableRes,10);
+      
+        
+       
+        
+        //console.log(this.state.conteiner2)
         
 
+
+        //---------------------------------------------------------------------------------//
+        
+        
     }; 
 
+    
     pintarTabla(){
+        let nvariable = parseInt(this.props.variableNum,10);
+        for (let index = 0; index < nvariable; index++) {
+            this.state.conteiner2.push(<th>x{index+1}</th>)
+        }
+        this.state.conteiner2.push(<th>Factibilidad</th>)
+        this.state.conteiner2.push(<th>Z</th>)
+        let element = 1
+        for (let index = 0; index < this.datafinal.length; index++) {
+            element *= this.datafinal[index].length;
+        }
 
+        let iter= nvariable+2
+        
+        for (let index = 0; index < iter; index++) {
+            this.state.conteiner3.push(<td id={"fila"+index}>asd</td>)
+            
+        }
+        
+        let contador =0   
+        for (let k = 0; k < this.datafinal[0].length; k++) {
+            //console.log(this.datafinal[0].length)
+            for (let m = 0; m < this.datafinal[1].length; m++) {
+                            
+            let dato = this.datafinal[0][k];
+            //console.log(this.datafinal[0][k])
+            this.state.conteinerx1.push(<tr align="center">{dato}</tr>)
+            this.x1[contador] = dato;
+            contador++  
+            }
+                              
+        }
+        
+      
+        for (let k = 0; k < this.datafinal[0].length; k++) {
+            
+            for (let m = 0; m < this.datafinal[1].length; m++) {
+                           
+            let dato = this.datafinal[1][m];
+            //console.log(dato)
+            this.state.conteinerx2.push(<tr align="center">{dato}</tr>)
+            this.x2[contador] = dato;
+            contador++
+            }                    
+        }
+        
+        for (let index = 0; index < element; index++) {
+            let a = this.x1[index];
+            let b = this.x2[index];
+            console.log(this.x1[index])
+            
+        }
+
+        for (let index = 0; index < element; index++) {
+            let c = parseInt(this.x1[index],10);
+            let d = parseInt(this.x1[index],10);
+            let resultado = c * parseInt(this.funcion_v[0],10) + d * parseInt(this.funcion_v[1],10);
+            console.log(resultado);
+            this.state.conteinerZ.push(<tr>{resultado}</tr>)
+            
+        }
+           
     }
+    
    
     render(){
         
-        let mostrarSolucion;
+        let mostrarSolucion = this.state.conteiner2.map((dato)=>dato);
+        let pintarTabla = this.state.conteiner3.map((dato)=>dato);
+        let pintarDatos1 = this.state.conteinerx1.map((dato)=>dato);
+        let pintarDatos2 = this.state.conteinerx2.map((dato)=>dato);
+        let pintarDatosZ = this.state.conteinerZ.map((dato)=>dato);
+        //console.log(mostrarSolucion)
         if (this.state.show){
-          mostrarSolucion = <Solucion show = {this.state.show}  display = "flex"></Solucion>;
+          mostrarSolucion = <Solucion 
+                                show = {this.state.show}   
+                                conteiner2 = {mostrarSolucion} 
+                                conteiner3= {pintarTabla} 
+                                conteiner4={pintarDatos1} 
+                                conteiner5={pintarDatos2}
+                                conteiner7={pintarDatosZ} 
+                                display = "flex">
+        
+                            </Solucion>;
             
         } 
         
-        return <div><br/><button  onClick={this.pintarForm}   className="boton">Continuar</button><br/><br/><div id="formulario"></div>
+        return <div id="plan"><br/><button  onClick={this.pintarForm}   className="boton">Continuar</button><br/><br/><div id="formulario"></div>
         {mostrarSolucion}
         </div>;
         
